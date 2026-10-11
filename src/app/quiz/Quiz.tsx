@@ -173,10 +173,12 @@ function Result({ answers }: { answers: QuizAnswers }) {
   const addMany = useCart((s) => s.addMany)
   const openBag = useUi((s) => s.openBag)
   const toast = useToast()
+  // one id per set of answers, so adding the same routine twice merges rather than duplicates
+  const routineId = `quiz:${answersToQuery(answers)}`
   const lines = slugs.map((slug) => {
     const p = requireProduct(slug)
     const v = p.variants.find((x) => x.stock > 0) ?? p.variants[0]!
-    return { slug, variantId: v.id, qty: 1 }
+    return { slug, variantId: v.id, qty: 1, routineId }
   })
   const totals = computeTotals(priceLines(lines))
   const available = lines.filter((l) => requireProduct(l.slug).variants.find((v) => v.id === l.variantId)!.stock > 0)
