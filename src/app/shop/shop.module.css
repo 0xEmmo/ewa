@@ -1,0 +1,234 @@
+.layout {
+  display: grid;
+  grid-template-columns: 15rem 1fr;
+  grid-template-areas:
+    'head head'
+    'toolbar toolbar'
+    'side results';
+  column-gap: var(--space-7);
+  padding-top: var(--space-6);
+}
+
+.head {
+  grid-area: head;
+  display: grid;
+  gap: var(--space-2);
+  padding-bottom: var(--space-5);
+}
+
+.title {
+  font-size: var(--step-4);
+}
+
+.toolbar {
+  grid-area: toolbar;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  margin-bottom: var(--space-5);
+  border-block: 1px solid var(--line);
+}
+
+.filterBtn {
+  display: none;
+  min-height: 42px;
+}
+
+.sort {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-left: auto;
+  order: 2;
+  font-size: var(--step--1);
+  font-weight: 600;
+}
+
+.sort select {
+  width: auto;
+  min-height: 42px;
+  font-size: var(--step--1);
+}
+
+.active {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.active button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 36px;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--ink);
+  border-radius: var(--radius-pill);
+  background: var(--ink);
+  color: var(--paper);
+  font-size: var(--step--1);
+}
+
+.active button:hover {
+  background: var(--ink-soft);
+}
+
+.sidebar {
+  grid-area: side;
+  display: grid;
+  gap: var(--space-5);
+  align-content: start;
+  position: sticky;
+  top: calc(var(--header-h) + var(--space-5));
+  max-height: calc(100dvh - var(--header-h) - var(--space-6));
+  overflow-y: auto;
+  padding-right: var(--space-2);
+}
+
+.fields {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.fields fieldset {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.fields legend {
+  margin-bottom: var(--space-2);
+  font-size: var(--step--2);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 36px;
+  font-size: var(--step--1);
+  cursor: pointer;
+}
+
+.option input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--plum);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.chip {
+  min-height: 36px;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: #fff;
+  font-size: var(--step--1);
+}
+
+.chip[aria-pressed='true'] {
+  border-color: var(--plum);
+  background: var(--plum-tint);
+  color: var(--plum);
+  font-weight: 600;
+}
+
+.results {
+  grid-area: results;
+  min-width: 0;
+}
+
+.toolbar[data-pending='true'] ~ .results,
+.sidebar[data-pending='true'] ~ .results {
+  opacity: 0.55;
+  transition: opacity 120ms 120ms;
+}
+
+.count {
+  margin-bottom: var(--space-4);
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6) var(--space-5);
+}
+
+.skeleton {
+  aspect-ratio: 4 / 6.2;
+  border-radius: var(--radius-s);
+  background: linear-gradient(100deg, var(--paper-deep) 40%, #fff 50%, var(--paper-deep) 60%) 0 0 / 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+.empty {
+  display: grid;
+  gap: var(--space-4);
+  justify-items: start;
+  padding: var(--space-7) 0;
+}
+
+.empty .display {
+  font-size: var(--step-3);
+}
+
+.sheetFoot {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-3);
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+    grid-template-areas: 'head' 'toolbar' 'results';
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .filterBtn {
+    display: inline-flex;
+  }
+
+  .sort label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .active {
+    order: 3;
+    width: 100%;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6) var(--space-3);
+  }
+}
