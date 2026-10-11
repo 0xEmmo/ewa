@@ -30,6 +30,13 @@ describe('placeOrder', () => {
     expect(bogus.ok && bogus.order.promoCode).toBeUndefined()
   })
 
+  it('refuses quantities the bag would never send', () => {
+    for (const qty of [0, 11, 999, 1.5]) {
+      const r = placeOrder({ ...good, lines: [{ ...good.lines[0]!, qty }] }, morning)
+      expect(r.ok).toBe(false)
+    }
+  })
+
   it('returns field errors together', () => {
     const r = placeOrder({ ...good, contact: { name: '', email: '', phone: '' }, payment: { method: 'card', card: { number: '1', expiry: '', cvv: '', name: '' } } }, morning)
     expect(r.ok).toBe(false)

@@ -5,6 +5,7 @@ import {
   applyPromo,
   computeTotals,
   deliveryOptions,
+  MAX_PER_LINE,
   priceLines,
   type CartLine,
   type DeliveryMethod,
@@ -74,6 +75,10 @@ const lagosDate = (now: Date) => new Intl.DateTimeFormat('en-CA', { timeZone: 'A
  * stock, validate every field, apply the promo, then "charge".
  */
 export function placeOrder(req: CheckoutRequest, now = new Date(), rand: () => number = Math.random): CheckoutResult {
+  // the bag clamps quantities itself, so anything outside 1..10 here was not sent by the app
+  if ((req.lines ?? []).some((l) => !Number.isInteger(l.qty) || l.qty < 1 || l.qty > MAX_PER_LINE)) {
+    return { ok: false, kind: 'invalid', message: 'One of the quantities in your bag isn’t valid.' }
+  }
   const lines = priceLines(req.lines ?? [])
   if (!lines.length) return { ok: false, kind: 'empty', message: 'Your bag is empty.' }
 
