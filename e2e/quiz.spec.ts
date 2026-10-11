@@ -40,3 +40,17 @@ test('app is installable: manifest and service worker', async ({ page }) => {
   expect(json.icons.some((i: { purpose?: string }) => i.purpose === 'maskable')).toBe(true)
   await expect.poll(() => page.evaluate(async () => !!(await navigator.serviceWorker.getRegistration())), { timeout: 10000 }).toBe(true)
 })
+
+test('pages keep working offline once the service worker is in', async ({ page, context }) => {
+  await page.goto('/')
+  await page.evaluate(() => navigator.serviceWorker.ready)
+  await page.reload()
+  await page.goto('/shop/even-tone-serum')
+  await context.setOffline(true)
+  await page.goto('/shop/even-tone-serum')
+  await expect(page.getByRole('heading', { name: 'Even Tone Serum' })).toBeVisible()
+  await expect(page.getByText(/offline/i).first()).toBeVisible()
+  await page.goto('/shop/glow-body-oil')
+  await expect(page.getByRole('heading', { name: 'You’re offline' })).toBeVisible()
+  await context.setOffline(false)
+})
