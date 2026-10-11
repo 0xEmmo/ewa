@@ -175,13 +175,16 @@ function Result({ answers }: { answers: QuizAnswers }) {
   const toast = useToast()
   // one id per set of answers, so adding the same routine twice merges rather than duplicates
   const routineId = `quiz:${answersToQuery(answers)}`
-  const lines = slugs.map((slug) => {
+  // tinted products need a shade; we ask rather than guess
+  const [shades, setShades] = useState<Record<string, string>>({})
+  const candidates = slugs.map((slug) => {
     const p = requireProduct(slug)
     const v = p.variants.find((x) => x.stock > 0) ?? p.variants[0]!
-    return { slug, variantId: v.id, qty: 1, routineId }
+    return { slug, variantId: v.id, shadeId: p.shades ? shades[slug] : undefined, qty: 1, routineId, inStock: v.stock > 0 }
   })
-  const totals = computeTotals(priceLines(lines))
-  const available = lines.filter((l) => requireProduct(l.slug).variants.find((v) => v.id === l.variantId)!.stock > 0)
+  const available = candidates.filter((l) => l.inStock && (!requireProduct(l.slug).shades || l.shadeId)).map((l) => ({ slug: l.slug, variantId: l.variantId, shadeId: l.shadeId, qty: l.qty, routineId: l.routineId }))
+  const totals = computeTotals(priceLines(available))
+  const needShade = slugs.filter((s) => requireProduct(s).shades && !shades[s]).map(requireProduct)
 
   const addAll = () => {
     addMany(available)
@@ -209,8 +212,8 @@ function Result({ answers }: { answers: QuizAnswers }) {
           {slugs.length} products for {answers.skinType} skin, morning and night.
         </p>
         <div className={styles.resultActions}>
-          <button type="button" className="btn btn-plum" onClick={addAll}>
-            Add all {available.length} to bag · <span className="num">{formatNaira(totals.subtotal)}</span>
+          <button type="button" className="btn btn-plum" onClick={addAll} disabled={available.length === 0}>
+            Add {available.length === slugs.length ? `all ${slugs.length}` : `${available.length} of ${slugs.length}`} to bag · <span className="num">{formatNaira(totals.subtotal)}</span>
           </button>
           <button type="button" className="btn btn-ghost" onClick={copy}>
             Copy link
@@ -220,11 +223,12 @@ function Result({ answers }: { answers: QuizAnswers }) {
           </Link>
         </div>
         {totals.routineSavings > 0 && <p className={styles.saving}>Includes {formatNaira(totals.routineSavings)} routine saving.</p>}
+        {needShade.length > 0 && <p className="hint">Pick a shade for {needShade.map((p) => p.name).join(' and ')} below to include it.</p>}
       </header>
 
       <div className={styles.columns}>
-        <RoutineColumn title="Morning" icon="sun" steps={routine.am} />
-        <RoutineColumn title="Night" icon="moon" steps={routine.pm} />
+        <RoutineColumn title="Morning" icon="sun" steps={routine.am} shades={shades} onShade={(slug, id) => setShades({ ...shades, [slug]: id })} />
+        <RoutineColumn title="Night" icon="moon" steps={routine.pm} shades={shades} onShade={(slug, id) => setShades({ ...shades, [slug]: id })} />
       </div>
 
       {routine.notes.length > 0 && (
@@ -243,7 +247,15 @@ function Result({ answers }: { answers: QuizAnswers }) {
   )
 }
 
-function RoutineColumn({ title, icon, steps }: { title: string; icon: 'sun' | 'moon'; steps: RoutineStep[] }) {
+interface ColumnProps {
+  title: string
+  icon: 'sun' | 'moon'
+  steps: RoutineStep[]
+  shades: Record<string, string>
+  onShade: (slug: string, shadeId: string) => void
+}
+
+function RoutineColumn({ title, icon, steps, shades, onShade }: ColumnProps) {
   return (
     <section aria-labelledby={`r-${title}`} className={styles.column}>
       <h2 id={`r-${title}`} className={styles.columnTitle}>
@@ -266,6 +278,19 @@ function RoutineColumn({ title, icon, steps }: { title: string; icon: 'sun' | 'm
                 </p>
                 <p className="muted">{brandById(p.brandId).name}</p>
                 <p className={styles.why}>{s.why}</p>
+                {p.shades && (
+                  <fieldset className={styles.shadePick}>
+                    <legend className="sr-only">Shade of {p.name}</legend>
+                    {p.shades.map((sh) => (
+                      <label key={sh.id} title={sh.name}>
+                        <input type="radio" name={`${title}-${p.slug}-shade`} checked={shades[p.slug] === sh.id} onChange={() => onShade(p.slug, sh.id)} />
+                        <span style={{ background: sh.hex }} aria-hidden />
+                        <span className="sr-only">{sh.name}</span>
+                      </label>
+                    ))}
+                    <span className="hint">{p.shades.find((sh) => sh.id === shades[p.slug])?.name ?? 'Choose a shade'}</span>
+                  </fieldset>
+                )}
               </div>
             </li>
           )

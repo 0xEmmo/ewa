@@ -22,7 +22,10 @@ test('quiz builds a shareable routine and adds it to the bag', async ({ page }) 
   await page.reload()
   await expect(page.getByRole('heading', { name: /dark marks, breakouts/i })).toBeVisible()
 
-  await page.getByRole('button', { name: /Add all/ }).click()
+  // the sunscreen is tinted, so it waits for a shade before it can join the bag
+  await expect(page.getByRole('button', { name: /Add 5 of 6/ })).toBeVisible()
+  await page.getByRole('group', { name: /Shade of Sheer Mineral/ }).first().getByRole('radio').first().check()
+  await page.getByRole('button', { name: /Add all 6/ }).click()
   const bag = page.getByRole('dialog', { name: /Your bag/ })
   await expect(bag).toBeVisible()
   await expect(bag.getByText('Routine saving', { exact: true })).toBeVisible()
