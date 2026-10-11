@@ -168,12 +168,12 @@ function WriteReview({ open, onClose, product }: { open: boolean; onClose: () =>
   return (
     <Dialog open={open} onClose={onClose} title={`Review ${product.name}`}>
       <form className={styles.reviewForm} onSubmit={submit} noValidate>
-        <fieldset aria-describedby={errors.rating ? 'err-rating' : undefined}>
+        <fieldset data-invalid={!!errors.rating} aria-describedby={errors.rating ? 'err-rating' : undefined}>
           <legend className="label">Your rating</legend>
           <div className={styles.starInput}>
             {[1, 2, 3, 4, 5].map((n) => (
               <label key={n}>
-                <input type="radio" name="rating" value={n} aria-invalid={!!errors.rating} />
+                <input type="radio" name="rating" value={n} />
                 <Icon name="star" size={28} />
                 <span className="sr-only">{n} {n === 1 ? 'star' : 'stars'}</span>
               </label>

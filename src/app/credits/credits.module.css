@@ -1,0 +1,29 @@
+.page {
+  padding-top: var(--space-6);
+}
+
+.title {
+  font-size: var(--step-4);
+}
+
+.lede {
+  max-width: 40rem;
+  margin-top: var(--space-3);
+  color: var(--muted);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  gap: var(--space-5) var(--space-4);
+  margin-top: var(--space-7);
+}
+
+.grid li > :first-child {
+  border-radius: var(--radius-s);
+}
+
+.grid p {
+  margin-top: var(--space-2);
+  font-size: var(--step--1);
+}

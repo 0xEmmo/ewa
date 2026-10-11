@@ -39,7 +39,6 @@ export function Photo({ name, alt, sizes, priority = false, ratio, className, st
       <picture>
         <source type="image/avif" srcSet={srcSet(name, m.widths, 'avif')} sizes={sizes} />
         <source type="image/webp" srcSet={srcSet(name, m.widths, 'webp')} sizes={sizes} />
-        {/* eslint-disable-next-line @next/next/no-img-element -- pre-encoded AVIF/WebP, see scripts/build-images.mjs */}
         <img
           src={photoUrl(name, fallback)}
           alt={alt}

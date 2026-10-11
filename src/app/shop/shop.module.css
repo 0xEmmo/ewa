@@ -31,7 +31,7 @@
   border-block: 1px solid var(--line);
 }
 
-.filterBtn {
+.toolbar .filterBtn {
   display: none;
   min-height: 42px;
 }
@@ -210,7 +210,7 @@
     display: none;
   }
 
-  .filterBtn {
+  .toolbar .filterBtn {
     display: inline-flex;
   }
 

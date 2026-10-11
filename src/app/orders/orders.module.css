@@ -1,0 +1,272 @@
+.page {
+  padding-top: var(--space-6);
+}
+
+.title {
+  font-size: var(--step-4);
+  margin-bottom: var(--space-2);
+}
+
+.empty {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-5);
+  margin-top: var(--space-5);
+}
+
+.list {
+  display: grid;
+  margin-top: var(--space-6);
+  border-top: 1px solid var(--line);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: var(--space-5);
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+}
+
+.row:hover strong {
+  text-decoration: underline;
+}
+
+.thumbs {
+  display: flex;
+}
+
+.thumbs > * {
+  width: 52px;
+  border-radius: 50%;
+  border: 2px solid var(--paper);
+}
+
+.thumbs > * + * {
+  margin-left: -16px;
+}
+
+.rowText {
+  display: grid;
+  font-size: var(--step--1);
+}
+
+.status {
+  padding: 0.25rem 0.7rem;
+  border-radius: var(--radius-pill);
+  background: var(--paper-deep);
+  font-size: var(--step--1);
+  font-weight: 600;
+}
+
+.status[data-stage='delivered'] {
+  background: var(--sage-tint);
+  color: var(--sage);
+}
+
+.status[data-stage='cancelled'] {
+  background: var(--danger-tint);
+  color: var(--danger);
+}
+
+.amount {
+  font-weight: 600;
+}
+
+.thanks {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  margin-bottom: var(--space-6);
+  padding: var(--space-5);
+  border-radius: var(--radius-m);
+  background: var(--sage-tint);
+  color: var(--sage);
+}
+
+.thanksTitle {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  color: var(--ink);
+}
+
+.detail {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5);
+  margin-top: var(--space-6);
+  align-items: start;
+}
+
+.card {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-m);
+  background: #fff;
+}
+
+.card:last-child {
+  grid-column: 1 / -1;
+}
+
+.h2 {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+}
+
+.timeline {
+  display: grid;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.timeline li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: var(--space-3);
+  padding-bottom: var(--space-4);
+}
+
+.timeline li:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: 11px;
+  top: 24px;
+  bottom: 0;
+  width: 2px;
+  background: var(--line-strong);
+}
+
+.timeline li[data-state='done']::before {
+  background: var(--sage);
+}
+
+.timeline li > span:last-child {
+  display: grid;
+  font-size: var(--step--1);
+}
+
+.dot {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--line-strong);
+  background: #fff;
+  color: #fff;
+}
+
+[data-state='done'] .dot {
+  background: var(--sage);
+  border-color: var(--sage);
+}
+
+[data-state='current'] .dot {
+  background: var(--plum);
+  border-color: var(--plum);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--plum) 18%, transparent);
+}
+
+.actions,
+.dialogActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.dialogActions {
+  justify-content: flex-end;
+  margin-top: var(--space-5);
+}
+
+.items {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.items li {
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  gap: var(--space-3);
+  align-items: center;
+  font-size: var(--step--1);
+}
+
+.items li > :first-child {
+  border-radius: var(--radius-s);
+}
+
+.items li > span:nth-child(2) {
+  display: grid;
+}
+
+.rows {
+  display: grid;
+  gap: var(--space-2);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
+}
+
+.rows div,
+.facts div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  font-size: var(--step--1);
+}
+
+.total {
+  padding-top: var(--space-2);
+  font-size: var(--step-1) !important;
+  font-weight: 600;
+}
+
+.facts {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.facts dt {
+  color: var(--muted);
+}
+
+.facts dd {
+  text-align: right;
+}
+
+@media (max-width: 820px) {
+  .detail {
+    grid-template-columns: 1fr;
+  }
+
+  .row {
+    grid-template-columns: auto 1fr auto;
+    gap: var(--space-3);
+  }
+
+  .status {
+    grid-column: 2;
+    justify-self: start;
+  }
+
+  .amount {
+    grid-row: 1;
+    grid-column: 3;
+  }
+
+  .facts div {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .facts dd {
+    text-align: left;
+  }
+}
