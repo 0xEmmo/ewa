@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import { useBag } from '@/hooks/useBag'
 import { useHydrated } from '@/hooks/useHydrated'
 import { categoryLabels } from '@/lib/catalog'
@@ -29,8 +29,23 @@ export function Wordmark() {
   )
 }
 
+/**
+ * The pathname is request data on dynamic routes (order pages), so the
+ * active-link state streams in; the fallback is the same header without it.
+ */
 export function Header() {
-  const pathname = usePathname()
+  return (
+    <Suspense fallback={<HeaderView pathname={null} />}>
+      <HeaderWithPath />
+    </Suspense>
+  )
+}
+
+function HeaderWithPath() {
+  return <HeaderView pathname={usePathname()} />
+}
+
+function HeaderView({ pathname }: { pathname: string | null }) {
   const openBag = useUi((s) => s.openBag)
   const { totals } = useBag()
   const hydrated = useHydrated()

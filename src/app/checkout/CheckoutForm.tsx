@@ -45,10 +45,11 @@ export function CheckoutForm() {
   const formRef = useRef<HTMLFormElement>(null)
   const bannerRef = useRef<HTMLDivElement>(null)
 
-  const options = useMemo(() => deliveryOptions(address.state || null, lagosHour()), [address.state])
+  // time-of-day decides whether same-day is still on offer; only read it in the browser
+  const options = useMemo(() => (hydrated ? deliveryOptions(address.state || null, lagosHour()) : []), [address.state, hydrated])
   const option = options.find((o) => o.id === delivery)
   const base = computeTotals(lines)
-  const promo = promoCode ? applyPromo(promoCode, { lines, subtotal: base.subtotal, previousOrders: orders.length, today: today() }) : null
+  const promo = hydrated && promoCode ? applyPromo(promoCode, { lines, subtotal: base.subtotal, previousOrders: orders.length, today: today() }) : null
   const totals = computeTotals(lines, { promo, delivery: option })
   const codAllowed = address.state === 'Lagos' && totals.total <= COD_LIMIT
   const brand = detectBrand(card.number)
