@@ -12,7 +12,8 @@
     "test:watch": "vitest",
     "e2e": "playwright test",
     "images": "node scripts/build-images.mjs",
-    "icons": "node scripts/build-icons.mjs"
+    "icons": "node scripts/build-icons.mjs",
+    "prebuild": "node scripts/build-sw.mjs"
   },
   "dependencies": {
     "next": "16.4.0",

@@ -1,0 +1,20 @@
+.stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.row {
+  display: inline-flex;
+  gap: 1px;
+  color: var(--ink);
+}
+
+.half {
+  fill: color-mix(in srgb, currentColor 45%, transparent);
+}
+
+.count {
+  font-size: var(--step--1);
+  color: var(--muted);
+}

@@ -1,0 +1,133 @@
+.free {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-4);
+  border-radius: var(--radius-s);
+  background: var(--paper-deep);
+  font-size: var(--step--1);
+}
+
+.track {
+  display: block;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.track span {
+  display: block;
+  height: 100%;
+  background: var(--plum);
+  transform-origin: left;
+  transition: transform 400ms var(--ease-out);
+}
+
+.lines {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.line {
+  display: grid;
+  grid-template-columns: 84px 1fr auto;
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.lines:not([data-compact='true']) .line {
+  grid-template-columns: 120px 1fr auto;
+  padding-bottom: var(--space-5);
+  border-bottom: 1px solid var(--line);
+}
+
+.thumb {
+  display: block;
+  border-radius: var(--radius-s);
+  overflow: hidden;
+}
+
+.info {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.brand {
+  font-size: var(--step--2);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.name {
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.name:hover {
+  text-decoration: underline;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-top: var(--space-2);
+}
+
+.remove {
+  padding: var(--space-2) 0;
+  border: 0;
+  background: none;
+  font-size: var(--step--1);
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  min-height: 44px;
+}
+
+.remove:hover {
+  color: var(--ink);
+}
+
+.price {
+  font-weight: 600;
+}
+
+.foot {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.sum {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--step--1);
+}
+
+.total {
+  font-size: var(--step-1);
+  font-weight: 600;
+}
+
+.empty {
+  display: grid;
+  gap: var(--space-4);
+  justify-items: start;
+  padding-top: var(--space-6);
+}
+
+.empty .display {
+  font-size: var(--step-3);
+}
