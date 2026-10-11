@@ -4,7 +4,7 @@
 
 It's a front-end project. The catalogue, pricing rules and payment gateway are mocks that live in this repo, so it clones and runs with no keys and no backend. The brands and products are made up; the photographs are real.
 
-**Live:** _deploying…_
+**Live:** https://ewa-swart.vercel.app
 
 | Home (desktop) | Product (mobile) | Routine quiz (desktop) |
 | --- | --- | --- |
